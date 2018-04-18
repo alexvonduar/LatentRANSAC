@@ -12,6 +12,7 @@ option(USAC_BUILD_TEST "Build the USAC test program." OFF)
 add_definitions(-DLIBCONFIGXX_STATIC)
 find_package(Config++)
 find_package(Lapack)
+find_package(OpenGV)
 
 add_subdirectory(src)
 if(USAC_BUILD_TEST)
