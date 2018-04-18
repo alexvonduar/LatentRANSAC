@@ -1,13 +1,14 @@
-This is a modified version of USAC (Universal Sample Consensus)
-using CMake to compile it on Windows, Mac and Linux.
+# Latent RANSAC
+See paper in https://arxiv.org/abs/1802.07045
+
+## Coming soon
+This repo will soon be populated with the implementation of Latent RANSAC.
+
+## Basis of our code
+
+Since we based our on (and compared to) USAC, we forked this repository from cr333/usac-cmake who ported it to camke format. 
 
 The original USAC source code (in branch 'usac') is available from:
 http://www.cs.unc.edu/~rraguram/usac/
 
 CMake/Mac porting by Christian Richardt (http://richardt.name).
-
-Based on the paper:
-  USAC: A Universal Framework for Random Sample Consensus
-  Rahul Raguram, Ondrej Chum, Marc Pollefeys, Jirí Matas and Jan-Michael Frahm
-  IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 35(8), 2022–2038
-  http://dx.doi.org/10.1109/TPAMI.2012.257
