@@ -6,14 +6,43 @@
 #include <windows.h>
 #endif
 
-#include <algorithm>
+//#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include <limits>
+//#include <limits>
 #include <vector>
 #include "config/ConfigParams.h"
 #include "utils/Timer.h"
+
+
+inline double mySqr(double in)
+{
+	return (in * in);
+}
+
+
+struct LatentHypothesis {
+	void reset() {
+		sample_indices_.clear();
+		hash_seed_.clear();
+		model_.clear();
+		children_indices_.clear();
+		father_ = -1;
+	}
+	void allocate(int s, int h, int m) {
+		reset();
+		sample_indices_.resize(s);
+		hash_seed_.resize(h);
+		model_.resize(m);
+	}
+	std::vector<unsigned int>	sample_indices_;
+	std::vector<double>			hash_seed_;// a vector of numbers that were used to create the hash (prior to quantization)
+	std::vector<double>			model_;
+
+	std::vector<unsigned int>	children_indices_;
+	int							father_ = -1;
+};
 
 struct UsacResults {
 	void reset() {
@@ -68,6 +97,8 @@ class USAC
 		virtual inline bool		    validateSample() = 0;
 		virtual inline bool		    validateModel(unsigned int modelIndex) = 0;
 		virtual inline bool		    evaluateModel(unsigned int modelIndex, unsigned int* numInliers, unsigned int* numPointsTested) = 0;
+		virtual inline bool			validateCollision(int index1, int index2) = 0;
+		virtual inline unsigned int hashMinimalSampleModels(unsigned int modelIndex) = 0;
 		virtual inline void		    testSolutionDegeneracy(bool* degenerateModel, bool* upgradeModel) = 0;
 		virtual inline unsigned int upgradeDegenerateModel() = 0;
 		virtual inline void		    findWeights(unsigned int modelIndex, const std::vector<unsigned int>& inliers, 
@@ -80,8 +111,9 @@ class USAC
 		// common parameters
 		double			usac_conf_threshold_;
 		unsigned int    usac_min_sample_size_;  
-		double			usac_inlier_threshold_;   
+		double			usac_inlier_threshold_square_;   
 		unsigned int	usac_max_hypotheses_;	
+		int    latent_ransac_max_stored_hyps_;
 		unsigned int	usac_max_solns_per_sample_; 
 		bool			usac_prevalidate_sample_;
 		bool			usac_prevalidate_model_;
@@ -90,6 +122,30 @@ class USAC
 		USACConfig::RandomSamplingMethod	   usac_sampling_method_;
 		USACConfig::VerifMethod				   usac_verif_method_;
 		USACConfig::LocalOptimizationMethod    usac_local_opt_method_;
+
+		// LATENT parameters
+		bool									latent_is_active_;
+		unsigned int							latent_image_width_;
+		unsigned int							latent_image_height_;
+		double									latent_maximum_parallax_;
+		double									latent_bin_size_;	
+		unsigned int							latent_num_grids_;
+		unsigned int							latent_max_num_collisions_;
+		unsigned char							latent_num_bits_;
+		double									latent_table_size_factor_;
+		double									latent_bidirectional_factor_;
+		double									latent_collision_tolerance_;
+		double									random_grid_prob_;
+		double									stop_crit_factor_;
+		double*					latent_grid_shifts_;
+		int**									latent_rand_grids_;
+
+		int cur_hyp_index_;
+		double* h_model_; // [9 * cur_hyp_index];
+		unsigned int* h_sample_indices_; //  [usac_min_sample_size_ * cur_hyp_index];
+		double* h_hash_seed_; // [model_dim * cur_hyp_index];
+		int hash_dim_; // hashing dimension (e.g. 8 for homography, 6 for pnp)
+		int model_size_; // number of elements in model matrix (e.g. 9 for homography, 12 for pnp)
 
 		// PROSAC parameters
 		unsigned int  prosac_growth_max_samples_;
@@ -154,6 +210,10 @@ class USAC
 		// PROSAC initialization
 		inline void initPROSAC();
 
+		// LATENT initialization & hash
+		inline void initLATENT();
+		inline unsigned int hash64byMod(unsigned long long key, unsigned char num_bits);
+	
 		// SPRT updates
 		inline void designSPRTTest();
 		double computeExpSPRT(double new_epsilon, double epsilon, double delta);
@@ -186,7 +246,8 @@ void USAC<ProblemType>::initParamsUSAC(const ConfigParams& cfg)
 	// store common parameters
 	usac_conf_threshold_        = cfg.common.confThreshold;
 	usac_min_sample_size_		= cfg.common.minSampleSize;
-	usac_inlier_threshold_		= cfg.common.inlierThreshold;
+	usac_inlier_threshold_square_ = cfg.common.inlierThreshold * cfg.common.inlierThreshold; // squared error. This is overridden for PnP (since errors aren't square)
+
 	usac_max_hypotheses_		= cfg.common.maxHypotheses;
 	usac_max_solns_per_sample_	= cfg.common.maxSolutionsPerSample;
 	usac_prevalidate_sample_	= cfg.common.prevalidateSample;
@@ -195,6 +256,20 @@ void USAC<ProblemType>::initParamsUSAC(const ConfigParams& cfg)
 	usac_sampling_method_		= cfg.common.randomSamplingMethod;
 	usac_verif_method_			= cfg.common.verifMethod;
 	usac_local_opt_method_      = cfg.common.localOptMethod;
+
+	// latent variables
+	latent_is_active_ = cfg.latent.is_active;
+	latent_image_width_ = cfg.latent.image_width;
+	latent_image_height_ = cfg.latent.image_height;
+	latent_maximum_parallax_ = cfg.latent.maximum_parallax;
+	latent_bin_size_ = cfg.latent.bin_size_factor * cfg.latent.collision_tolerance;
+	latent_num_grids_ = cfg.latent.num_grids;
+	latent_max_num_collisions_ = cfg.latent.max_num_collisions;
+	latent_table_size_factor_ = cfg.latent.table_size_factor;
+	latent_bidirectional_factor_ = cfg.latent.bidirectional_factor;
+	latent_collision_tolerance_ = cfg.latent.collision_tolerance;
+	random_grid_prob_ = cfg.latent.random_grid_prob;
+	stop_crit_factor_ = cfg.latent.stop_crit_factor;
 
 	// read in PROSAC parameters if required
 	if (usac_sampling_method_ == USACConfig::SAMP_PROSAC)
@@ -233,18 +308,23 @@ void USAC<ProblemType>::initParamsUSAC(const ConfigParams& cfg)
 template <class ProblemType>
 void USAC<ProblemType>::initDataUSAC(const ConfigParams& cfg)
 {
+
 	// clear output data
 	usac_results_.reset();
 
 	// initialize some data specfic stuff
 	usac_num_data_points_ = cfg.common.numDataPoints;
-	usac_inlier_threshold_ = cfg.common.inlierThreshold*cfg.common.inlierThreshold;
 
 	// set up PROSAC if required
 	if (usac_sampling_method_ == USACConfig::SAMP_PROSAC)
 	{
 		prosac_sorted_point_indices_.assign(cfg.prosac.sortedPointIndices, cfg.prosac.sortedPointIndices+cfg.common.numDataPoints);
 		initPROSAC(); 		// init the PROSAC data structures
+	}
+
+	if (latent_is_active_)
+	{
+		initLATENT();
 	}
 
 	// set up SPRT if required
@@ -302,6 +382,15 @@ void USAC<ProblemType>::initDataUSAC(const ConfigParams& cfg)
 template <class ProblemType>
 bool USAC<ProblemType>::solve()
 {
+	if (latent_is_active_)
+		std::cout << "------ Using LATENT ------" << std::endl;
+	else
+		std::cout << "------ Using USAC ------" << std::endl;
+
+	unsigned int totSkippedNonColission = 0;
+	unsigned int totModelsEvaluated = 0;
+	unsigned int totModelsReachedEnd = 0;
+
 	unsigned int adaptive_stopping_count = usac_max_hypotheses_;   // initialize with worst case	
 	bool update_sprt_stopping = true;	
 
@@ -315,9 +404,11 @@ bool USAC<ProblemType>::solve()
 	// timing stuff
 	double tick = Timer::getTimestampInSeconds();
 
+	unsigned int best_sample_index = -1; // record sample index when the winner was found
+
 	// ------------------------------------------------------------------------
 	// main USAC loop
-	while (usac_results_.hyp_count_ < adaptive_stopping_count && usac_results_.hyp_count_ < usac_max_hypotheses_)
+	while (1)
 	{
 		++usac_results_.hyp_count_;
 
@@ -379,9 +470,26 @@ bool USAC<ProblemType>::solve()
 				}
 			}
 
+			if (latent_is_active_)
+			{
+				unsigned int num_collisions;
+
+				// insert into hash table(s)
+				num_collisions = static_cast<ProblemType *>(this)->hashMinimalSampleModels(i);
+
+				if (usac_results_.hyp_count_ % 100000 == 0)
+					std::cout << "hyp count: " << usac_results_.hyp_count_ << " curr collisions: " << num_collisions << " (tot skipped: " << totSkippedNonColission << ")" << std::endl;
+				if (num_collisions == 0)
+				{
+					totSkippedNonColission++;
+					continue;
+				}
+			}
+			totModelsEvaluated++;
 			// valid model, perform evaluation
 			unsigned int inlier_count, num_points_tested;
-			bool good = static_cast<ProblemType *>
+			bool good;
+			good = static_cast<ProblemType *>
 				        (this)->evaluateModel(i, &inlier_count, &num_points_tested);
 
 			// update based on verification results
@@ -394,6 +502,7 @@ bool USAC<ProblemType>::solve()
 					if (inlier_count > usac_results_.best_inlier_count_)
 					{
 						update_best = true;
+						best_sample_index = usac_results_.hyp_count_;
 						usac_results_.best_inlier_count_ = inlier_count;
 						storeSolution(i, usac_results_.best_inlier_count_);    // store result
 					}
@@ -424,6 +533,7 @@ bool USAC<ProblemType>::solve()
 						{
 							// and best so far
 							update_best = true;
+							best_sample_index = usac_results_.hyp_count_;
 							usac_results_.best_inlier_count_ = inlier_count;
 							wald_test_history_ = addTestHistorySPRT(sprt_epsilon_, sprt_delta_, 
 								usac_results_.hyp_count_, wald_test_history_, &last_wald_history_update_);
@@ -457,6 +567,9 @@ bool USAC<ProblemType>::solve()
 				}
 			}
 		}
+
+		if (update_best && (!degenerate_model || upgrade_successful))
+			totModelsReachedEnd++;
 
 		// -----------------------------------------
 		// 7. perform local optimization if specified
@@ -501,6 +614,15 @@ bool USAC<ProblemType>::solve()
 				update_sprt_stopping = false;
 			}
 		}
+
+		bool cond_latent = ((latent_is_active_ && ((usac_results_.hyp_count_ < 1.4 * adaptive_stopping_count) || (totModelsEvaluated < 1)) 
+			&& (totModelsEvaluated < latent_max_num_collisions_)) 
+			&& (cur_hyp_index_ < latent_ransac_max_stored_hyps_) 
+			&& (usac_results_.hyp_count_ < usac_max_hypotheses_));
+		bool cond_non_latent = (!latent_is_active_ && (usac_results_.hyp_count_ <     adaptive_stopping_count)
+			&& (usac_results_.hyp_count_ < usac_max_hypotheses_));
+		if (!(cond_latent || cond_non_latent))
+			break;
 
 	} // end the main USAC loop
 
@@ -557,6 +679,87 @@ void USAC<ProblemType>::generateUniformRandomSample(unsigned int dataSize, unsig
 				++pos;
 		}
 	} while (count < sampleSize);
+}
+
+// ============================================================================================
+// initLATENT: initializes LATENT
+// allocates random grid shifts and tables
+// ============================================================================================
+template <class ProblemType> inline
+void USAC<ProblemType>::initLATENT()
+{
+	// randomize shifts for grids
+	int num_shifts = hash_dim_ * latent_num_grids_;
+	latent_grid_shifts_ = (double *)malloc(num_shifts*sizeof(double));
+	for (int i = 0; i < num_shifts; i++)
+		latent_grid_shifts_[i] = (static_cast <double> (rand()) / static_cast <double> (RAND_MAX));
+
+	//latent_grid_shifts_.clear();
+	//for (int i = 0; i < num_shifts; i++)
+	//	latent_grid_shifts_.push_back(static_cast <double> (rand()) / static_cast <double> (RAND_MAX));
+
+
+	// allocate arrays for grids and hypothesis history
+	latent_num_bits_ = ceil(log2(latent_table_size_factor_ * usac_max_hypotheses_));
+	int alloc_size = (1 << latent_num_bits_);
+	//assert(usac_max_hypotheses_ < 2000000000); // do not allocate more than 2GB
+	//	latent_hyp_history_.reserve(alloc_size);
+
+	//	latent_rand_grids_.resize(latent_num_grids_);
+
+
+	/* N is the number of rows  */
+	/* note: latent_rand_grids_ is char** */
+
+	latent_rand_grids_ = (int **)malloc(latent_num_grids_*sizeof(int*));
+
+	for (unsigned int i = 0; i < latent_num_grids_; i++)
+	{
+		/* x_i here is the size of given row, no need to
+		* multiply by sizeof( char ), it's always 1
+		*/
+		latent_rand_grids_[i] = (int *)malloc(alloc_size*sizeof(int));
+
+		//for (int j = 0; j < alloc_size; j++)
+		//	latent_rand_grids_[i][j] = -1;
+		memset(latent_rand_grids_[i], -1, alloc_size*sizeof(int));
+		/* probably init the row here */
+	}
+
+	//for (int i = 0; i < latent_num_grids_; i++)
+	//	latent_rand_grids_[i].resize(alloc_size, -1);
+
+
+	// new allocations for history:
+	cur_hyp_index_ = -1; // the first ++ will move it to zero
+	if (latent_is_active_)
+	{
+		latent_ransac_max_stored_hyps_ = usac_max_hypotheses_ / 4;
+		// DIFFERENT SIZE FOR SPECIAL GROUND TRUTH LABELING RUNS
+		//latent_ransac_max_stored_hyps_ = usac_max_hypotheses_ / 2;
+		h_model_ = (double *)malloc(model_size_ * latent_ransac_max_stored_hyps_ *sizeof(double));
+		h_sample_indices_ = (unsigned int *)malloc(usac_min_sample_size_ * latent_ransac_max_stored_hyps_ *sizeof(double));
+		h_hash_seed_ = (double *)malloc(hash_dim_ * latent_ransac_max_stored_hyps_ *sizeof(double));
+	}
+
+}
+
+
+
+
+
+// ============================================================================================
+// hash64byMod: creates hash value of unsgigned 64 bit integer into any value upto 32 bits
+// ============================================================================================
+template <class ProblemType> inline
+unsigned int USAC<ProblemType>::hash64byMod(unsigned long long key, unsigned char num_bits)
+{
+	// these are large (the largest) primes with 0:31 bits
+	unsigned int largePrimes[32] = { 0, 0, 3, 7, 13, 31, 61, 127, 251, 509, 1021, 2039, 4093, 8191, 16381, 32749, 65521, 131071, 262139, 524287, 1048573,
+		2097143, 4194301, 8388593, 16777213, 33554393, 67108859, 134217689, 268435399, 536870909, 1073741789, 2147483647 };
+
+	return (unsigned int)(key % largePrimes[num_bits]);
+
 }
 
 
@@ -646,7 +849,7 @@ void USAC<ProblemType>::initPROSAC()
 	// i-th entry - number of samples for pool [0...i] (pool length = i+1)
 	maximality_samples_prosac_.clear();
 	maximality_samples_prosac_.resize(usac_num_data_points_);	
-	for (size_t i = 0; i < usac_num_data_points_; ++i)
+	for (unsigned int i = 0; i < usac_num_data_points_; ++i)
 	{
 		maximality_samples_prosac_[i] = usac_max_hypotheses_;
 	}
@@ -793,11 +996,10 @@ template <class ProblemType> inline
 unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestInliers)
 {
 	// return if insufficient number of points
-	if (bestInliers < 2*lo_inner_sample_size) 
+	if (bestInliers < 2 * usac_min_sample_size_) // Simon edit - too few inliers to do local optimization
 	{
 		return 0;
 	}
-
 	unsigned int lo_sample_size = std::min(lo_inner_sample_size, bestInliers/2);
 	std::vector<unsigned int> sample(lo_sample_size);
 	std::vector<unsigned int> orig_inliers(usac_num_data_points_);
@@ -807,16 +1009,16 @@ unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestI
 	// find all inliers less than threshold 
 	unsigned int lo_inliers = bestInliers;
 	unsigned int temp_inliers = 0;
-	findInliers(err_ptr_[1], usac_inlier_threshold_, &orig_inliers);	
+	findInliers(err_ptr_[1], usac_inlier_threshold_square_, &orig_inliers);	
 #if 0
 	// check if there is substantial overlap between the current and the best inlier sets
 	// if yes, the local refinement is unlikely to help 
 	std::vector<unsigned int> ind_best, ind_curr(bestInliers);
-	for (size_t i = 0; i < usac_num_data_points_; ++i)
+	for (unsigned int i = 0; i < usac_num_data_points_; ++i)
 	{
 		if (m_prevBestInliers[i]) ind_best.push_back(i);
 	}
-	for (size_t i = 0; i < bestInliers; ++i)
+	for (unsigned int i = 0; i < bestInliers; ++i)
 	{
 		ind_curr[i] = orig_inliers[i];
 	}
@@ -835,7 +1037,7 @@ unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestI
 	++usac_results_.num_local_optimizations_;
 
 	double *weights = new double[usac_num_data_points_];	
-	double threshold_step_size = (lo_threshold_multiplier_*usac_inlier_threshold_ - usac_inlier_threshold_)
+	double threshold_step_size = (lo_threshold_multiplier_*usac_inlier_threshold_square_ - usac_inlier_threshold_square_)
 								  /lo_num_iterative_steps_;	
 	// perform number of inner RANSAC repetitions
 	for (unsigned int i = 0; i < lo_num_inner_ransac_reps_; ++i)
@@ -855,7 +1057,12 @@ unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestI
 		{
 			continue;
 		}
-		temp_inliers = findInliers(err_ptr_[0], lo_threshold_multiplier_*usac_inlier_threshold_, &iter_inliers);
+		temp_inliers = findInliers(err_ptr_[0], lo_threshold_multiplier_*usac_inlier_threshold_square_, &iter_inliers);
+
+		if (temp_inliers < usac_min_sample_size_) // simon: added this, otherwise generateRefinedModel might crash
+		{
+			continue;
+		}
 
 		// generate least squares model from all inliers
 		if (! static_cast<ProblemType *>(this)->generateRefinedModel(iter_inliers, temp_inliers) )
@@ -871,7 +1078,7 @@ unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestI
 			{
 				continue;
 			}
-			findInliers(err_ptr_[0], (lo_threshold_multiplier_*usac_inlier_threshold_) - (j+1)*threshold_step_size, &iter_inliers);		
+			findInliers(err_ptr_[0], (lo_threshold_multiplier_*usac_inlier_threshold_square_) - (j+1)*threshold_step_size, &iter_inliers);		
 			static_cast<ProblemType *>(this)->findWeights(0, iter_inliers, temp_inliers, weights);
 			if (! static_cast<ProblemType *>(this)->generateRefinedModel(iter_inliers, temp_inliers, true, weights) )
 			{
@@ -884,7 +1091,7 @@ unsigned int USAC<ProblemType>::locallyOptimizeSolution(const unsigned int bestI
 		{
 			continue;
 		}
-		//findInliers(err_ptr_[0], iter_inliers, usac_inlier_threshold_);	
+		//findInliers(err_ptr_[0], iter_inliers, usac_inlier_threshold_square_);	
 
 		if (temp_inliers > lo_inliers)
 		{
@@ -935,20 +1142,22 @@ unsigned int USAC<ProblemType>::updateStandardStopping(unsigned int numInliers, 
 		n_pts *= totPoints - i;
 	}
 	double prob_good_model = n_inliers/n_pts;
+	double nusample_s;
 
 	if ( prob_good_model < std::numeric_limits<double>::epsilon() )
 	{
-		return usac_max_hypotheses_;
+		nusample_s = usac_max_hypotheses_;
 	}
 	else if ( 1 - prob_good_model < std::numeric_limits<double>::epsilon() )
 	{
-		return 1;
+		nusample_s =  1;
 	}
 	else 
 	{
-		double nusample_s = log(1-usac_conf_threshold_)/log(1-prob_good_model);
-		return (unsigned int) ceil(nusample_s);
+		nusample_s = log(1 - usac_conf_threshold_) / log(1 - prob_good_model);
 	}
+
+	return (unsigned int)ceil(nusample_s); // ransac case
 }
 
 
@@ -1051,7 +1260,7 @@ void USAC<ProblemType>::storeSolution(unsigned int modelIndex, unsigned int numI
 	std::vector<double>::iterator current_err_array = err_ptr_[0];
 	for (unsigned int i = 0; i < usac_num_data_points_; ++i)
 	{
-		if (*(current_err_array+i) < usac_inlier_threshold_)
+		if (*(current_err_array+i) < usac_inlier_threshold_square_)
 			usac_results_.inlier_flags_[i] = 1;
 		else
 			usac_results_.inlier_flags_[i] = 0;
