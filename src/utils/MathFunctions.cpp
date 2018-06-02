@@ -430,12 +430,33 @@ namespace MathTools
 	*  public license (LGPL). ( See the lgpl.license file for details.)
 	* ------------------------------------------------------------------------
 	*/
-	void vmul(double *vp,double *mat,double *v,int n)
-	{ double s,*q; int k,i;
-	for(k=0; k<n ;++k){
-		for(i=0,q=v,s=0.; i<n ;++i) s+= *mat++ * *q++;
-		*vp++ =s;
+	void vmul(double *vp, double *mat, double *v, int n)
+	{
+		double s, *q;
+		int k, i;
+		for (k = 0; k < n; ++k)
+		{
+			for (i = 0, q = v, s = 0.; i < n; ++i)
+				s += *mat++ * *q++;
+			*vp++ = s;
+		}
 	}
+
+	// similar to vmul, but left multiplication of a vector
+	void leftvmul(double *vp, double *v, double *mat, int n)
+	{
+		double s, *q;
+		int k, i;
+		for (k = 0; k < n; ++k)
+		{
+			for (i = 0, q = v, s = 0.; i < n; ++i)
+			{
+				s += mat[i*n] * *q++;
+
+			}
+			*vp++ = s;
+			mat++;
+		}
 	}
 
 	/*  mattr.c    CCMATH mathematics library source code.
@@ -475,6 +496,31 @@ namespace MathTools
 		}
 	}
 	trnm(b,n);
+	}
+
+	void addvecs(double *out, const double *a, const double *b, unsigned int len)
+	{
+		for (unsigned int i = 0; i < len; ++i)
+			out[i] = a[i] + b[i];
+	}	
+	
+	void subtractvecs(double *out, const double *a, const double *b, unsigned int len)
+	{
+		for (unsigned int i = 0; i < len; ++i)
+			out[i] = a[i] - b[i];
+	}
+
+	void dotprod(double &res, const double *a, const double *b, unsigned int len)
+	{
+		res = 0;
+		for (unsigned int i = 0; i < len; ++i)
+			res += a[i] * b[i];
+	}
+
+	void addScalar(double *a, const double scalar, unsigned int len)
+	{
+		for (unsigned int i = 0; i < len; ++i)
+			a[i] += scalar;
 	}
 	
 	void crossprod(double *out, const double *a, const double *b, unsigned int st)

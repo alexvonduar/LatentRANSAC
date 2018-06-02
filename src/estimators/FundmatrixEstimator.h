@@ -33,12 +33,12 @@ class FundMatrixEstimator: public USAC<FundMatrixEstimator>
 			if (input_points_) { delete[] input_points_; input_points_ = NULL; }
 			if (data_matrix_) { delete[] data_matrix_; data_matrix_ = NULL; }
 			if (degen_data_matrix_) { delete[] degen_data_matrix_; degen_data_matrix_ = NULL; }
-			for (size_t i = 0; i < models_.size(); ++i)
+			for (unsigned int i = 0; i < models_.size(); ++i)
 			{
 				if (models_[i]) { delete[] models_[i]; }
 			}
 			models_.clear();
-			for (size_t i = 0; i < models_denorm_.size(); ++i)
+			for (unsigned int i = 0; i < models_denorm_.size(); ++i)
 			{
 				if (models_denorm_[i]) { delete[] models_denorm_[i]; }
 			}
@@ -50,7 +50,9 @@ class FundMatrixEstimator: public USAC<FundMatrixEstimator>
 		// problem specific functions
 		inline void		 cleanupProblem();
 		inline unsigned int generateMinimalSampleModels();
-		inline bool		 generateRefinedModel(std::vector<unsigned int>& sample, const unsigned int numPoints, 
+		inline unsigned int hashMinimalSampleModels(unsigned int modelIndex);
+		inline bool			validateCollision(int index1, int index2);
+		inline bool		 generateRefinedModel(std::vector<unsigned int>& sample, const unsigned int numPoints,
 										  bool weighted = false, double* weights = NULL);
 		inline bool		 validateSample();
 		inline bool		 validateModel(unsigned int modelIndex);
@@ -154,12 +156,12 @@ void FundMatrixEstimator::cleanupProblem()
 	if (input_points_) { delete[] input_points_; input_points_ = NULL; }
 	if (data_matrix_) { delete[] data_matrix_; data_matrix_ = NULL; }
 	if (degen_data_matrix_) { delete[] degen_data_matrix_; degen_data_matrix_ = NULL; }
-	for (size_t i = 0; i < models_.size(); ++i)
+	for (unsigned int i = 0; i < models_.size(); ++i)
 	{
 		if (models_[i]) { delete[] models_[i]; }
 	}
 	models_.clear();
-	for (size_t i = 0; i < models_denorm_.size(); ++i)
+	for (unsigned int i = 0; i < models_denorm_.size(); ++i)
 	{
 		if (models_denorm_[i]) { delete[] models_denorm_[i]; }
 	}
@@ -236,6 +238,27 @@ unsigned int FundMatrixEstimator::generateMinimalSampleModels()
 	return nsols;
 }
 
+
+// ============================================================================================
+// hashMinimalSampleModels: inserts current sample model(s) into hash  
+// returns number of collisions
+// ============================================================================================
+unsigned int FundMatrixEstimator::hashMinimalSampleModels(unsigned int modelIndex)
+{
+	int n_collisions = 0;
+	return n_collisions;
+}
+
+
+// ============================================================================================
+// validateCollision: validate collision
+// returns validity of collision
+// ============================================================================================
+bool FundMatrixEstimator::validateCollision(int index1, int index2)
+{
+	bool is_valid = false;
+	return is_valid;
+}
 
 // ============================================================================================
 // generateRefinedModel: compute model using non-minimal set of samples
@@ -370,14 +393,14 @@ bool FundMatrixEstimator::evaluateModel(unsigned int modelIndex, unsigned int* n
 		temp_err = r*r / (rxc*rxc + ryc*ryc + rx*rx + ry*ry);
 		*(current_err_array+pt_index) = temp_err;
 
-		if (temp_err < usac_inlier_threshold_)
+		if (temp_err < usac_inlier_threshold_square_)
 		{
 			++(*numInliers);
 		}
 
 		if (usac_verif_method_ == USACConfig::VERIF_SPRT)
 		{
-			if (temp_err < usac_inlier_threshold_)
+			if (temp_err < usac_inlier_threshold_square_)
 			{			
 				lambdaj = lambdaj_1 * (sprt_delta_/sprt_epsilon_);
 			}
@@ -622,9 +645,9 @@ unsigned int FundMatrixEstimator::upgradeDegenerateModel()
 			best_upgrade_inliers = num_inliers;
 
 			unsigned int count = 0;
-			for (size_t j = 0; j < outlier_indices.size(); ++j)
+			for (unsigned int j = 0; j < outlier_indices.size(); ++j)
 			{
-				if (*(current_err_array+outlier_indices[j]) < usac_inlier_threshold_)
+				if (*(current_err_array+outlier_indices[j]) < usac_inlier_threshold_square_)
 				{
 					++count;
 				}

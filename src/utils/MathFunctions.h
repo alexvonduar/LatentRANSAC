@@ -31,10 +31,17 @@ namespace MathTools
 	int qrbdv(double *x, double *y, double *z, int i, double *w, int j);
 	int minv(double *a,int n);
 	void vmul(double *vp,double *mat,double *v,int n);
+	void leftvmul(double *vp, double *v, double *mat, int n);
 	void mattr(double *a,double *b,int m,int n) ;
 	void skew_sym(double *A, double *a);
 	void mmul(double *c,double *a,double *b,int n);
 	void crossprod(double *out, const double *a, const double *b, unsigned int st);
 	void trnm(double *a,int n);
+
+	// added
+	void addvecs(double *out, const double *a, const double *b, unsigned int len);
+	void subtractvecs(double *out, const double *a, const double *b, unsigned int len);
+	void dotprod(double &res, const double *a, const double *b, unsigned int len);
+	void addVec(double *a, const double *b, unsigned int len);
 }
 #endif
