@@ -58,19 +58,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\lib\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)..\lib\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USAC.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USAC</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\lib\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)..\lib\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USAC.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USAC</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\lib\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(ProjectDir)..\lib\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">USAC.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">USAC</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\lib\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(ProjectDir)..\lib\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">USAC.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">USAC</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
@@ -95,10 +95,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;LIBCONFIGXX_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -129,10 +129,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;LIBCONFIGXX_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -163,10 +163,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;LIBCONFIGXX_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -196,10 +196,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;LIBCONFIGXX_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\eigen-3.2.10;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\ext\eigen-3.2.10;$(ProjectDir)..\..\ext\libconfig-1.4.5\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -211,10 +211,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt</Message>
+    <CustomBuild Include="$(ProjectDir)..\..\src\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule $(ProjectDir)../../src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC -BC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/build_14 --check-stamp-file C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -H$(ProjectDir)../../ -B$(ProjectDir)../ --check-stamp-file $(ProjectDir)..\src\CMakeFiles\generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -222,12 +222,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)../../src/CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)..\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule $(ProjectDir)../../src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC -BC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/build_14 --check-stamp-file C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -H$(ProjectDir)../../ -B$(ProjectDir)../ --check-stamp-file $(ProjectDir)..\src\CMakeFiles\generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -235,12 +235,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)../../src/CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)..\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule $(ProjectDir)../../src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC -BC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/build_14 --check-stamp-file C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -H$(ProjectDir)../../ -B$(ProjectDir)../ --check-stamp-file $(ProjectDir)..\src\CMakeFiles\generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -248,12 +248,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(ProjectDir)../../src/CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(ProjectDir)..\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule $(ProjectDir)../../src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC -BC:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/build_14 --check-stamp-file C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -H$(ProjectDir)../../ -B$(ProjectDir)../ --check-stamp-file $(ProjectDir)..\src\CMakeFiles\generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -261,8 +261,8 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/src/CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\build_14\src\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(ProjectDir)../../src/CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;$(ProjectDir)..\..\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(ProjectDir)..\src\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -272,31 +272,31 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\src\estimators\PnPEstimator.h" />
     <ClInclude Include="..\..\src\estimators\Rigid3dEstimator.h" />
     <ClInclude Include="..\..\src\utils\PnpFunctions.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigFileReader.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParams.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParamsFundmatrix.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParamsHomog.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\estimators\FundmatrixEstimator.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\estimators\HomogEstimator.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\estimators\TemplateEstimator.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\estimators\USAC.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\FundmatrixFunctions.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\HomographyFunctions.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\MathFunctions.h" />
-    <ClInclude Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\Timer.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigFileReader.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParams.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParamsFundmatrix.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParamsHomog.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\FundmatrixEstimator.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\HomogEstimator.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\TemplateEstimator.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\USAC.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\FundmatrixFunctions.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\HomographyFunctions.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\MathFunctions.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\Timer.h" />
     <ClCompile Include="..\..\src\config\ConfigParamsPnP.cpp" />
     <ClCompile Include="..\..\src\config\ConfigParamsRigid3d.cpp" />
     <ClCompile Include="..\..\src\utils\PnpFunctions.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigFileReader.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParams.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParamsFundmatrix.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\config\ConfigParamsHomog.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\FundmatrixFunctions.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\HomographyFunctions.cpp" />
-    <ClCompile Include="C:\Users\Litman\Dropbox\SharedFolders\Latent_RANSAC\code_pub\LatentRANSAC\src\utils\MathFunctions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigFileReader.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParams.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParamsFundmatrix.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParamsHomog.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\FundmatrixFunctions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\HomographyFunctions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\MathFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:/Users/Litman/Dropbox/SharedFolders/Latent_RANSAC/code_pub/LatentRANSAC/build_14/ZERO_CHECK.vcxproj">
+    <ProjectReference Include="$(ProjectDir)../ZERO_CHECK.vcxproj">
       <Project>6396F8A6-E100-3448-AD64-ED2F3C7E98EB</Project>
     </ProjectReference>
   </ItemGroup>
