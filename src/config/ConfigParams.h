@@ -41,6 +41,37 @@ namespace USACConfig
 		LocalOptimizationMethod localOptMethod;
 	};
 
+	// LATENT parameters
+	struct Latent
+	{
+		Latent() : is_active(false),
+					image_width			(0),
+					image_height		(0),
+					maximum_parallax	(0),
+					bin_size_factor		(2.0),
+					num_grids			(8),
+					max_num_collisions  (10),
+					table_size_factor(2.0),
+					bidirectional_factor(2.0),
+					collision_tolerance(10.0),
+					random_grid_prob(0.1),
+					stop_crit_factor(3)
+		{}
+		bool			is_active;
+		unsigned int	image_width;
+		unsigned int	image_height;
+		double			maximum_parallax;
+		double			bin_size_factor;
+		unsigned int	num_grids;
+		unsigned int    max_num_collisions;
+		double			table_size_factor;
+		double			bidirectional_factor;
+		double			collision_tolerance;
+		double			random_grid_prob;
+		double			stop_crit_factor;
+	};
+
+
 	// PROSAC parameters
 	struct Prosac
 	{
@@ -101,6 +132,7 @@ public:
 	bool initUSACParamsFromConfigFile(const ConfigFileReader& cfr);
 
 	USACConfig::Common     common;
+	USACConfig::Latent     latent;
 	USACConfig::Prosac     prosac;
 	USACConfig::Sprt       sprt;
 	USACConfig::Losac      losac;

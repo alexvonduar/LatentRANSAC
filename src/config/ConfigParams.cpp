@@ -62,6 +62,30 @@ bool ConfigParams::initUSACParamsFromConfigFile(const ConfigFileReader& cfr)
 			}
 		} 
 
+		// read in LATENT parameters if required
+		if (!(cfr.getTopLevelParameterValue("latent", "is_active", latent.is_active)))
+			return false;
+
+		if (latent.is_active)
+		{
+			if (!(
+				cfr.getTopLevelParameterValue("latent", "image_width", latent.image_width) &&
+				cfr.getTopLevelParameterValue("latent", "image_height", latent.image_height) &&
+				cfr.getTopLevelParameterValue("latent", "maximum_parallax", latent.maximum_parallax) &&
+				cfr.getTopLevelParameterValue("latent", "bin_size_factor", latent.bin_size_factor) &&
+				cfr.getTopLevelParameterValue("latent", "num_grids", latent.num_grids) &&
+				cfr.getTopLevelParameterValue("latent", "max_num_collisions", latent.max_num_collisions) &&
+				cfr.getTopLevelParameterValue("latent", "table_size_factor", latent.table_size_factor) &&
+				cfr.getTopLevelParameterValue("latent", "bidirectional_factor", latent.bidirectional_factor) &&
+				cfr.getTopLevelParameterValue("latent", "collision_tolerance", latent.collision_tolerance) &&
+				cfr.getTopLevelParameterValue("latent", "stop_crit_factor", latent.stop_crit_factor) &&
+				cfr.getTopLevelParameterValue("latent", "random_grid_prob", latent.random_grid_prob) 
+				)) 
+			{
+				return false;
+			}
+		}
+
 		// read in PROSAC parameters if required
 		if (common.randomSamplingMethod == USACConfig::SAMP_PROSAC)
 		{
