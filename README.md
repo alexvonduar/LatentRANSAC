@@ -1,12 +1,14 @@
 # Latent RANSAC
 See paper in https://arxiv.org/abs/1802.07045
 
+This branch is a "dirty" verion, i.e. with compiled bainries of the depencencies for visual studio 14 (2015)
+
 ## Depencencies
 
 Config++
 Lapack
 OpenGV
-Eigen
+Eigen (needed by OpenGV)
 
 
 ## Coming soon
