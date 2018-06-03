@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigFileReader.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParams.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParamsFundmatrix.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\config\ConfigParamsHomog.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config\ConfigParamsPnP.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config\ConfigParamsRigid3d.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\MathFunctions.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\FundmatrixFunctions.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\src\utils\HomographyFunctions.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\PnpFunctions.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\USAC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config\ConfigParamsRigid3d.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigFileReader.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParams.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParamsFundmatrix.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\config\ConfigParamsHomog.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config\ConfigParamsPnP.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\FundmatrixEstimator.h">
+      <Filter>Header Files\Estimator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\HomogEstimator.h">
+      <Filter>Header Files\Estimator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\estimators\Rigid3dEstimator.h">
+      <Filter>Header Files\Estimator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\estimators\TemplateEstimator.h">
+      <Filter>Header Files\Estimator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\estimators\PnPEstimator.h">
+      <Filter>Header Files\Estimator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\FundmatrixFunctions.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\HomographyFunctions.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\MathFunctions.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\src\utils\Timer.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils\PnpFunctions.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8D35791F-DF16-372D-B4C3-9C8593C709FC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{EA40A88F-D67A-35E6-827E-A40441817B83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{9a3e9a0e-f8d0-4d63-98e9-437d15f53dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Estimator">
+      <UniqueIdentifier>{c4ce4505-d883-4653-9e0f-5dadc616795f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{0cf6329c-e9fe-41d3-8bd9-69323a1eadaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{ca9f265e-d71a-4b0c-9327-6acd1c44b770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{acc2692d-33a6-4e82-9698-7ad855ece928}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
