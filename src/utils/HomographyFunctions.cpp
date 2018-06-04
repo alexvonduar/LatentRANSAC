@@ -49,4 +49,8 @@ namespace HTools
 		out[2] = a[0]*b[st]   - a[st]*b[0];
 	}
 
+	inline bool isClockWise(double x1, double y1, double x2, double y2, double x3, double y3)
+	{
+		return (y3 - y2)*(x2 - x1) < (y2 - y1)*(x3 - x2);
+	}
 }
