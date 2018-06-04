@@ -3,14 +3,11 @@ See paper in https://arxiv.org/abs/1802.07045
 
 ## Depencencies
 
-Config++
-Lapack
-OpenGV
-Eigen
+* Config++ (note - this DLL need to be in PATH)
+* Lapack
+* OpenGV
+* Eigen (needed by OpenGV)
 
-
-## Coming soon
-This repo will soon be populated with the implementation of Latent RANSAC.
 
 ## Basis of our code
 
