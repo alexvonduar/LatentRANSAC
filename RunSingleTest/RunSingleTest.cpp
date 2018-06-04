@@ -3,7 +3,6 @@
 #include <windows.h>
 #endif
 
-#define USE_OPENGV
 
 
 #include <iostream>
@@ -15,10 +14,8 @@
 #include "config/ConfigParams.h"
 #include "estimators/FundmatrixEstimator.h"
 #include "estimators/HomogEstimator.h"
-#if defined(USE_OPENGV)
 #include "estimators/PnPEstimator.h"
 #include "estimators/Rigid3dEstimator.h"
-#endif
 
 // helper functions
 bool readCorrsFromFile(std::string& inputFilePath, std::vector<double>& pointData, unsigned int& numPts, bool is3D)
@@ -228,9 +225,7 @@ int main(int argc, char **argv)
 		prosac_data.clear();
 		homog->cleanupProblem();
 		delete homog;
-	}
-#if defined(USE_OPENGV)
-	else if (estimation_problem == 2) { // PnP //
+	}	else if (estimation_problem == 2) { // PnP //
 		// ------------------------------------------------------------------------
 		// initialize the PnP estimation problem
 		ConfigParamsPnP cfg;
@@ -365,7 +360,6 @@ int main(int argc, char **argv)
 		rigid3d->cleanupProblem();
 		delete rigid3d;
 	}
-#endif
 	else {
 		std::cout << "Estimation problem currently not implemented" << std::endl;
 	}
