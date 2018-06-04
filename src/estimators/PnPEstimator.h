@@ -238,7 +238,6 @@ unsigned int PnPEstimator::generateMinimalSampleModels()
 	solutions.clear();
 	rotations.clear();
 	translations.clear();
-	opengv::absolute_pose::modules::p3p_kneip_main(p, f, all_solutions);
 	PTools::p3p_kneip_RT(p, f, all_rotations, all_translations, all_solutions);
 
 	// extract solutions
