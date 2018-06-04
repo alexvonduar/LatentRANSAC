@@ -1,18 +1,16 @@
 # Latent RANSAC
 See paper in https://arxiv.org/abs/1802.07045
 
-This branch is a "dirty" verion, i.e. with compiled bainries of the depencencies for visual studio 14 (2015)
+This branch includes visual studio 14 (2015) solution and projects, along with the needed depencencies compiled for "x64 Release"                                                
 
 ## Depencencies
 
-Config++
-Lapack
-OpenGV
-Eigen (needed by OpenGV)
+* Config++ (note - this DLL need to be in PATH)
+* Lapack
+* OpenGV
+* Eigen (needed by OpenGV)
 
 
-## Coming soon
-This repo will soon be populated with the implementation of Latent RANSAC.
 
 ## Basis of our code
 
