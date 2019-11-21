@@ -5,23 +5,23 @@
 
 namespace USACConfig
 {
-	// problem specific/data-related parameters: fundamental matrix
-	struct Rigid3d
-	{
-		Rigid3d(): inputFilePath	      ("")			// leave blank if not using config file
-		{}
+    // problem specific/data-related parameters: fundamental matrix
+    struct Rigid3d
+    {
+        Rigid3d(): inputFilePath("") // leave blank if not using config file
+        {}
 
-		std::string			inputFilePath;
-	};
+        std::string inputFilePath;
+    };
 }
 
 class ConfigParamsRigid3d: public ConfigParams
 {
 public:
-	// simple function to read in parameters from config file
-	bool initParamsFromConfigFile(std::string& configFilePath);
+    // simple function to read in parameters from config file
+    bool initParamsFromConfigFile(std::string& configFilePath);
 
-	USACConfig::Rigid3d rigid3d;
+    USACConfig::Rigid3d rigid3d;
 };
 
 #endif

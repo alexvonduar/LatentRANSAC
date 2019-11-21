@@ -9,18 +9,18 @@
 
 namespace PTools
 {
-	void p3p_kneip_RT(
-		const opengv::bearingVectors_t & f,
-		const opengv::points_t & p,
-		opengv::rotations_t & rotations,
-		opengv::translations_t & translations,
-		opengv::transformations_t & solutions);
+    void p3p_kneip_RT(
+        const opengv::bearingVectors_t & f,
+        const opengv::points_t & p,
+        opengv::rotations_t & rotations,
+        opengv::translations_t & translations,
+        opengv::transformations_t & solutions);
 
-	void epnp_RT(
-		const opengv::bearingVectors_t & f,
-		const opengv::points_t & p,
-		opengv::rotation_t & rotation,
-		opengv::translation_t & translation,
-		opengv::transformation_t & solution);
+    void epnp_RT(
+        const opengv::bearingVectors_t & f,
+        const opengv::points_t & p,
+        opengv::rotation_t & rotation,
+        opengv::translation_t & translation,
+        opengv::transformation_t & solution);
 }
 #endif
