@@ -79,7 +79,7 @@ class PnPEstimator: public USAC<PnPEstimator>
         inline bool getPoint3D(unsigned int index, opengv::point_t& point);
         inline bool getPoint2D(unsigned int index, opengv::point_t& point);
 
-        inline void PnPEstimator::NormalizePoint(double* point);
+        inline void NormalizePoint(double* point);
 
 private:
         inline double getResidualError(double* correspondence, double* R_prime, double* T);

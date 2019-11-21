@@ -7,7 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
-option(USAC_BUILD_TEST "Build the USAC test program." OFF)
+option(USAC_BUILD_TEST "Build the USAC test program." ON)
 
 add_definitions(-DLIBCONFIGXX_STATIC)
 find_package(Config++)

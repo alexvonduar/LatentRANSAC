@@ -6,8 +6,9 @@
 #include <windows.h>
 #endif
 
-//#include <algorithm>
+#include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 //#include <limits>

@@ -79,10 +79,10 @@ class Rigid3dEstimator: public USAC<Rigid3dEstimator>
 
         inline void getPointPair3D(unsigned int index, opengv::point_t& point1, opengv::point_t& point2);
 
-        inline void Rigid3dEstimator::NormalizePoint(double* point);
+        inline void NormalizePoint(double* point);
 
     private:
-        inline double Rigid3dEstimator::DistR3(double* point1, double* point2);
+        inline double DistR3(double* point1, double* point2);
         inline double getResidualError(double* correspondence, double* R_prime, double* T);
         double*      input_points_denorm_; // stores pointer to original input points
 
